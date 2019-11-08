@@ -11,15 +11,17 @@
 
 
 
-#define PORT 3848
+#define PORT 8080
 #define BACKLOG 1
 
+
+// TODO Receive JSON Object
 int main () {
     int server_fd, new_socket; long valread;
     struct sockaddr_in address = {};
     int addrlen = sizeof(address);
 
-    char *hello = "Hello from server";
+    char *hello = "Hello from C server";
 
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0 )) < 0) {
         perror("cannot create socket");
@@ -62,8 +64,6 @@ int main () {
             perror("In accept");
             exit(EXIT_FAILURE);
         }
-
-        printf("%s\n", "Connected to");
 
         char buffer[30000] = {0};
         valread = read(new_socket, buffer, 30000);
