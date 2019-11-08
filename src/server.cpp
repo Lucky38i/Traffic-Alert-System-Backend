@@ -11,7 +11,7 @@
 
 
 
-#define PORT 8080
+#define PORT 3848
 #define BACKLOG 1
 
 int main () {
@@ -25,6 +25,8 @@ int main () {
         perror("cannot create socket");
         return 0;
     }
+    printf("%s \n","Socket Created");
+
 
 
 
@@ -43,6 +45,7 @@ int main () {
         perror("bind failed");
         return 0;
     }
+    printf("%s \n","Socket Bound");
 
     // Tells socket to accept incoming connections
     if (listen(server_fd, BACKLOG) < 0) {
@@ -50,19 +53,24 @@ int main () {
         exit(EXIT_FAILURE);
     }
 
+    printf("%s \n","Socket Listening");
+
     while (true) {
-        printf("Waiting for new connection");
+        printf("%s \n","Waiting for new connection");
 
         if ((new_socket = accept(server_fd, (struct sockaddr*) &address, (socklen_t*) &addrlen))< 0){
             perror("In accept");
             exit(EXIT_FAILURE);
         }
 
+        printf("%s\n", "Connected to");
+
         char buffer[30000] = {0};
         valread = read(new_socket, buffer, 30000);
+        printf("%ld\n", valread);
         printf("%s\n", buffer);
         write(new_socket, hello, strlen(hello));
-        printf("Hello message sent");
+        printf("%s\n","Hello message sent");
         close(new_socket);
     }
 }
