@@ -76,17 +76,18 @@ int main () {
 
         char buffer[30000] = {0};
         valread = read(new_socket, buffer, 30000);
-        printf("valread: %ld, buffer: %s\n", valread, buffer);
+        //printf("valread: %ld, buffer: %s\n", valread, buffer);
 
-
+        // Parse the received object from client
         cJSON *json = cJSON_Parse(buffer);
         test.ID =cJSON_GetObjectItemCaseSensitive(json, "id")->valueint;
         strcpy(test.vehicle, cJSON_GetObjectItemCaseSensitive(json, "vehicle")->valuestring);
         printf("The Test ID is: %i The Test Vehicle is: %s\n", test.ID, test.vehicle);
 
+        //
         write(new_socket, hello, strlen(hello));
         printf("%s\n","Hello message sent");
-        //cJSON_Delete(json);
+        cJSON_Delete(json);
         close(new_socket);
     }
 }
